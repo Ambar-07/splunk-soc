@@ -1,92 +1,104 @@
-# AI-Assisted SIEM Threat Detection Platform
+<p align="center">
+  <a href="https://github.com/abhinav4961/splunk-soc">
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=32&pause=1000&color=25C2A0&center=true&vCenter=true&width=800&lines=AI-Assisted+SIEM+Dashboard;Threat+Detection+Platform;Powered+by+Splunk+Enterprise" alt="Typing SVG" />
+  </a>
+</p>
 
-A minimal, educational **Security Information and Event Management (SIEM)** dashboard built on **Splunk Enterprise**, designed to demonstrate how a SIEM collects logs, detects attacks, and maps detections to the **MITRE ATT&CK** framework.
+<p align="center">
+  <img src="https://img.shields.io/badge/Splunk-000000?style=for-the-badge&logo=splunk&logoColor=white" alt="Splunk" />
+  <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux" />
+  <img src="https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white" alt="Bash" />
+  <img src="https://img.shields.io/badge/Cybersecurity-FF0000?style=for-the-badge&logo=tryhackme&logoColor=white" alt="Cybersecurity" />
+</p>
 
-> Built as a teaching tool, not a commercial SOC clone. Every panel answers one of three questions: **What happened? Is it suspicious? Which MITRE ATT&CK technique does it map to?**
+<h3 align="center">A minimal, educational Security Information and Event Management (SIEM) dashboard designed to demonstrate how a SIEM collects logs, detects attacks, and maps detections to the MITRE ATT&CK framework.</h3>
 
 ---
+
+> [!NOTE]
+> **Built for Education:** Every panel on this dashboard answers one of three core questions: **What happened? Is it suspicious? Which MITRE ATT&CK technique does it map to?**
+
+<br>
 
 ## Table of Contents
 
-- [Features](#features)
+- [Platform Features](#platform-features)
 - [Dashboard Panels](#dashboard-panels)
 - [MITRE ATT&CK Mapping](#mitre-attck-mapping)
-- [Architecture](#architecture)
-- [Requirements](#requirements)
-- [Installation](#installation)
-  - [1. Deploy the Dashboard](#1-deploy-the-dashboard)
-  - [2. Set Up Log Monitoring](#2-set-up-log-monitoring)
-- [Generating Test Data](#generating-test-data)
-- [Project Structure](#project-structure)
-- [Troubleshooting](#troubleshooting)
-- [Roadmap](#roadmap)
+- [System Architecture](#system-architecture)
+- [Deployment Guide](#deployment-guide)
+- [Project Structure & Troubleshooting](#project-structure--troubleshooting)
 
----
+<br>
 
-## Features
+## Platform Features
 
-- **4 KPI cards** — current totals only, no misleading percentages
-- **Event Timeline** — when security events occurred
-- **Recent Events table** — live parsed Linux auth/sudo/SSH logs
-- **MITRE ATT&CK Mapping** — auto-classifies real events into attack techniques
-- **AI Summary** — dynamic text generated from actual indexed log counts
-- **Dark, professional theme** — native Splunk colors, no animations or hacker aesthetics
-- **Fully data-driven** — zero hardcoded metrics; every panel queries live Splunk data
+![Platform Features Overview](screenshots/features.png)
+
+* **4 KPI Cards** — Real-time metrics showing current totals without misleading percentages.
+* **Event Timeline** — Visual representation of when security events occurred.
+* **Recent Events Table** — Live parsed Linux authentication, `sudo`, and SSH logs.
+* **MITRE ATT&CK Mapping** — Automatically classifies real events into established attack techniques.
+* **AI Summary** — Dynamic, human-readable text generated from actual indexed log counts.
+* **Fully Data-Driven** — Zero hardcoded metrics; every panel queries live Splunk data dynamically.
+
+<br>
 
 ## Dashboard Panels
 
+![Dashboard Panels Overview](screenshots/dashboard_panels.png)
+
 | Section | Panel | Purpose |
 |---------|-------|---------|
-| Overview | Total Events | How much log data do we have? |
-| Overview | Failed Logins | Authentication failures detected |
-| Overview | Successful Logins | Valid account activity |
-| Overview | Active Log Sources | How many hosts are reporting |
-| Timeline | Event Timeline | When did events occur (hourly line chart) |
-| Recent Events | Recent Events Table | Live view of parsed events: Time, Event, User, Source IP, Status |
-| ATT&CK | MITRE ATT&CK Mapping | Maps real events to techniques + IDs + status |
-| Summary | AI Summary | Auto-generated plain-text analysis of current data |
+| **Overview** | Total Events | How much log data do we currently have? |
+| **Overview** | Failed Logins | Count of authentication failures detected. |
+| **Overview** | Successful Logins | Count of valid account activity. |
+| **Overview** | Active Log Sources | How many distinct hosts are reporting logs? |
+| **Timeline** | Event Timeline | Hourly line chart showing when events occurred. |
+| **Recent Events** | Recent Events Table | Live view of parsed events. |
+| **ATT&CK** | MITRE Mapping | Maps real events to MITRE techniques + IDs. |
+| **Summary** | AI Summary | Auto-generated plain-text analysis. |
+
+<br>
 
 ## MITRE ATT&CK Mapping
 
-The dashboard maps **real log patterns** to MITRE ATT&CK techniques dynamically — nothing is hardcoded.
+![MITRE ATT&CK Mapping Interface](screenshots/mitre_mapping.png)
+
+> [!TIP]
+> The dashboard maps **real log patterns** to MITRE ATT&CK techniques dynamically using Splunk SPL — nothing is hardcoded!
 
 | Log Pattern | Event | Technique | Technique ID | Status |
 |-------------|-------|-----------|--------------|--------|
-| `Failed password` (SSH) | Failed SSH Login | Brute Force | T1110 | Detected |
-| `Accepted password` / `session opened` | Successful Login | Valid Accounts | T1078 | Monitored |
-| `COMMAND=` (sudo) | Privilege Escalation | Abuse Elevation Control Mechanism | T1548 | Detected |
+| `Failed password` (SSH) | Failed SSH Login | Brute Force | **T1110** | Detected |
+| `Accepted password` / `session opened` | Successful Login | Valid Accounts | **T1078** | Monitored |
+| `COMMAND=` (sudo) | Privilege Escalation | Abuse Elevation Control Mechanism | **T1548** | Detected |
 
-## Architecture
+<br>
 
+## System Architecture
+
+```mermaid
+flowchart TD
+    A[Linux Logs\nauth/sudo/sshd] -->|File Written| B(Splunk Monitor Input)
+    B -->|Ingest & Index| C[(index=main\nsourcetype=save)]
+    C -->|SPL Searches| D[Splunk Enterprise Search]
+    D -->|Populates| E{{Splunk Dashboard\nSimple XML}}
+    E --> F[KPIs]
+    E --> G[Timeline]
+    E --> H[Events Table]
+    E --> I[ATT&CK Map]
 ```
-Linux logs (auth/sudo/sshd)
-        │
-        ▼
-Splunk monitor input  ──►  index=main, sourcetype=save
-        │
-        ▼
-Splunk Enterprise search  ──►  Splunk dashboard (Simple XML)
-        │
-        ▼
-Panels: KPIs • Timeline • Events • ATT&CK Map • AI Summary
-```
 
-- **Log collection:** Splunk monitor inputs watch `/var/log/splunk-monitor/*.log`
-- **Parsing:** SPL `rex` commands extract `user`, `source IP`, and event status
-- **Classification:** SPL `case()` / `eval` statements map events to ATT&CK techniques
-- **Presentation:** Native Splunk Simple XML dashboard (`siem_dashboard.xml`)
+<br>
 
-## Requirements
+## Deployment Guide
 
-- **Splunk Enterprise** installed at `/opt/splunk` (any recent free tier)
-- Linux environment (Kali/Debian tested)
-- A file-based log source (auth logs, sudo logs, etc.)
+<details>
+<summary><b>1. Dashboard Installation</b> (Click to expand)</summary>
+<br>
 
-## Installation
-
-### 1. Deploy the Dashboard
-
-Copy the dashboard into Splunk's search app views folder:
+Copy the provided XML dashboard into Splunk's search app views folder:
 
 ```bash
 sudo mkdir -p /opt/splunk/etc/apps/search/local/data/ui/views/
@@ -94,89 +106,79 @@ sudo cp siem_dashboard.xml /opt/splunk/etc/apps/search/local/data/ui/views/siem_
 sudo /opt/splunk/bin/splunk restart
 ```
 
-Open the dashboard:
+Once restarted, open the dashboard in your browser: `http://localhost:8000/en-US/app/search/siem_dashboard`
 
-```
-http://localhost:8000/en-US/app/search/siem_dashboard
-```
+</details>
 
-### 2. Set Up Log Monitoring
+<details>
+<summary><b>2. Log Monitoring Setup</b> (Click to expand)</summary>
+<br>
 
-Run the setup script to configure a monitor input (auto-indexes any log you drop in):
+Run the setup script to configure a monitor input that will auto-index any log file you drop in:
 
 ```bash
 sudo bash setup_monitor.sh
 ```
 
-This:
-1. Creates `/var/log/splunk-monitor/`
-2. Writes `inputs.conf` pointing that folder → `index=main`, `sourcetype=save`
-3. Restarts Splunk
-
-**Adding logs later** is just:
-
+**Adding your own logs later:** Simply drop them in the folder! Splunk will index them within seconds.
 ```bash
 sudo cp yourfile.log /var/log/splunk-monitor/
 ```
+</details>
 
-Splunk indexes it within seconds — no upload wizard needed.
+<details>
+<summary><b>3. Generating Test Data</b> (Click to expand)</summary>
+<br>
 
-> Alternative manual method: in the Splunk UI go to **Settings → Data → Data inputs → Upload**, select your file, set **sourcetype = `save`** and **index = `main`**.
+To see the dashboard light up, generate a realistic auth log with **today's date**. 
 
-## Generating Test Data
-
-Generate a realistic auth log with **today's date** (required — old dates fall outside the visible range):
+> [!WARNING]
+> This is required because old dates fall outside the dashboard's visible timeframe!
 
 ```bash
 bash generate_test_logs.sh
+sudo cp test_auth_*.log /var/log/splunk-monitor/test_auth.log
 ```
+</details>
 
-Produces `test_auth_<date>.log` containing:
-- 6 failed SSH logins (→ T1110 Brute Force)
-- 4 successful logins + sessions (→ T1078 Valid Accounts)
-- 3 sudo privilege-escalation commands (→ T1548)
+<br>
 
-Then index it:
+## Project Structure & Troubleshooting
 
-```bash
-sudo cp test_auth_<date>.log /var/log/splunk-monitor/test_auth.log
-```
+<details>
+<summary><b>View Repository Structure</b> (Click to expand)</summary>
+<br>
 
-A static sample (`sample_auth.log`) is also included for reference.
-
-## Project Structure
-
-```
+```text
 ├── siem_dashboard.xml        # Main Splunk dashboard (Simple XML)
 ├── setup_monitor.sh          # Configures Splunk monitor input for log folder
 ├── generate_test_logs.sh     # Creates fresh test logs with today's date
 ├── generate_mock_data.sh     # (Optional) HEC-based mock event generator
 ├── sample_auth.log           # Static sample auth/sudo/sshd logs
 ├── index.html                # (Optional) Static mock dashboard for Cloudflare Pages demo
-└── README.md                 # This file
+└── README.md                 # Project Documentation
 ```
+</details>
 
-## Troubleshooting
+<details>
+<summary><b>Common Issues & Fixes</b> (Click to expand)</summary>
+<br>
 
 | Problem | Fix |
 |---------|-----|
-| Dashboard 404 | Ensure `siem_dashboard.xml` is in `/opt/splunk/etc/apps/search/local/data/ui/views/` and Splunk was restarted. XML must be valid — any unescaped `&` (e.g. `ATT&CK`) breaks the whole file (must be `ATT&amp;CK`). |
-| All zeros / no data | Check the index: run `index=main | stats count by sourcetype` in Splunk Search. If your data is in another index, update every `index=main` in the XML. |
-| Timeline graph flat | Your logs are too old. Test logs must be dated **today** — regenerate with `generate_test_logs.sh`. |
-| CLI says "Login failed" | Use the password you log into the web UI with. Do not use literal placeholder text like `YOURREALPASSWORD`. |
-| No `main` index in upload dropdown | The wizard auto-guessed another index (e.g. `exim_main`). Use the monitor input method instead, or update the dashboard to your real index. |
+| **Dashboard 404** | Ensure `siem_dashboard.xml` is in `/opt/splunk/etc/apps/search/local/data/ui/views/` and Splunk was restarted. XML must be valid (any unescaped `&` in "ATT&CK" breaks it — must be `ATT&amp;CK`). |
+| **All Zeros / No Data** | Check the index: run `index=main | stats count by sourcetype` in Splunk Search. If your data is in another index, update every `index=main` in the XML. |
+| **Timeline graph flat** | Your logs are too old! Test logs must be dated **today** — regenerate with `bash generate_test_logs.sh`. |
+</details>
+
+<br>
 
 ## Roadmap
 
-Planned future panels (layout already supports them, no redesign needed):
-
-- Detection Rules
-- Alert Panel
-- Threat Intelligence
-- MITRE ATT&CK Heatmap
-- Risk Score
-- Geographic Attack Map
-
----
-
-*"This is the first prototype. Over the internship I'll extend it with live log ingestion, detection rules, alerts, AI summaries, and a full MITRE ATT&CK heatmap."*
+- [ ] Live Log Ingestion
+- [ ] Detection Rules & Alerts Panel
+- [ ] Threat Intelligence Feed
+- [ ] MITRE ATT&CK Heatmap
+- [ ] MITRE-ATLAS Mapping
+- [ ] Risk Score Calculation
+- [ ] Geographic Attack Map
