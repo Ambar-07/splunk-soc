@@ -126,19 +126,23 @@ sudo cp yourfile.log /var/log/splunk-monitor/
 ```
 </details>
 
-<details>
-<summary><b>📷 Log Ingestion Visuals</b> (Click to expand)</summary>
 <br>
+
+### Educational Reference: Log Ingestion Process
+
+*The following screenshots are provided to assist students in visualizing the log ingestion pipeline:*<br><br>
+
 <p align="center">
-  <img src="screenshots/log_ingestion_1.png" width="48%" />
-  <img src="screenshots/log_ingestion_2.png" width="48%" />
-  <br>
-  <img src="screenshots/log_ingestion_3.png" width="48%" />
-  <img src="screenshots/log_ingestion_4.png" width="48%" />
-  <br>
-  <img src="screenshots/log_ingestion_5.png" width="97%" />
+  <img src="screenshots/log_ingestion_1.png" width="85%" />
+  <br><br>
+  <img src="screenshots/log_ingestion_2.png" width="85%" />
+  <br><br>
+  <img src="screenshots/log_ingestion_3.png" width="85%" />
+  <br><br>
+  <img src="screenshots/log_ingestion_4.png" width="85%" />
+  <br><br>
+  <img src="screenshots/log_ingestion_5.png" width="85%" />
 </p>
-</details>
 
 <details>
 <summary><b>3. Generating Test Data</b> (Click to expand)</summary>
