@@ -127,6 +127,20 @@ sudo cp yourfile.log /var/log/splunk-monitor/
 </details>
 
 <details>
+<summary><b>📷 Log Ingestion Visuals</b> (Click to expand)</summary>
+<br>
+<p align="center">
+  <img src="screenshots/log_ingestion_1.png" width="48%" />
+  <img src="screenshots/log_ingestion_2.png" width="48%" />
+  <br>
+  <img src="screenshots/log_ingestion_3.png" width="48%" />
+  <img src="screenshots/log_ingestion_4.png" width="48%" />
+  <br>
+  <img src="screenshots/log_ingestion_5.png" width="97%" />
+</p>
+</details>
+
+<details>
 <summary><b>3. Generating Test Data</b> (Click to expand)</summary>
 <br>
 
