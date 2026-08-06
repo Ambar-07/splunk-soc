@@ -1,0 +1,121 @@
+<dashboard version="1.1" theme="dark">
+  <label>AI-Assisted SIEM Threat Detection Platform</label>
+  <description>Linux Log Monitoring - Splunk Enterprise - MITRE ATT&amp;CK</description>
+
+  <html>
+    <div style="padding: 12px 0 8px 0;">
+      <h1 style="margin: 0; font-size: 20px; font-weight: 600; color: #ffffff;">AI-Assisted SIEM Threat Detection Platform</h1>
+      <p style="margin: 4px 0 0 0; font-size: 12px; color: #9ca3af;">Linux Log Monitoring • Splunk Enterprise • MITRE ATT&amp;CK</p>
+    </div>
+  </html>
+
+  <row>
+    <panel>
+      <single>
+        <title>Total Events</title>
+        <search>
+          <query>index=main sourcetype=save | stats count as value</query>
+          <earliest>0</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="useColors">true</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Failed Logins</title>
+        <search>
+          <query>index=main sourcetype=save "Failed password" | stats count as value</query>
+          <earliest>0</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
+        <option name="useColors">true</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Successful Logins</title>
+        <search>
+          <query>index=main sourcetype=save ("Accepted password" OR "session opened") | stats count as value</query>
+          <earliest>0</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="useColors">true</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Active Log Sources</title>
+        <search>
+          <query>index=main sourcetype=save | stats dc(host) as value</query>
+          <earliest>0</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="useColors">true</option>
+      </single>
+    </panel>
+  </row>
+
+  <row>
+    <panel>
+      <chart>
+        <title>Event Timeline</title>
+        <search>
+          <query>index=main sourcetype=save | timechart span=1h count</query>
+          <earliest>0</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+      </chart>
+    </panel>
+  </row>
+
+  <row>
+    <panel>
+      <table>
+        <title>Recent Events</title>
+        <search>
+          <query>index=main sourcetype=save | head 10 | rex "for invalid user (?&lt;user&gt;[\w.]+)" | rex "session opened for user (?&lt;user&gt;[\w.]+)" | rex "USER=(?&lt;user&gt;[\w.]+)" | rex "from (?&lt;src_ip&gt;[\d.]+)" | eval user=coalesce(user,"-"), src_ip=coalesce(src_ip,"-") | eval status=case(match(_raw,"Failed password"),"Failed",match(_raw,"session opened"),"Success",match(_raw,"Accepted"),"Success",1=1,"Info") | table _time, _raw, user, src_ip, status | rename _time as "Time", _raw as "Event", src_ip as "Source IP"</query>
+          <earliest>0</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rowNumbers">false</option>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <title>MITRE ATT&amp;CK Mapping</title>
+        <search>
+          <query>index=main sourcetype=save | eval Event=case(match(_raw,"Failed password"),"Failed SSH Login",match(_raw,"Accepted password"),"Successful Login",match(_raw,"session opened"),"Successful Login",match(_raw,"COMMAND="),"Privilege Escalation",1=1,"Other") | eval Technique=case(Event=="Failed SSH Login","Brute Force",Event=="Successful Login","Valid Accounts",Event=="Privilege Escalation","Abuse Elevation Control Mechanism",1=1,"Unknown") | eval "Technique ID"=case(Event=="Failed SSH Login","T1110",Event=="Successful Login","T1078",Event=="Privilege Escalation","T1548",1=1,"-") | eval Status=case(Event=="Failed SSH Login","Detected",Event=="Successful Login","Monitored",Event=="Privilege Escalation","Detected",1=1,"Monitored") | stats count by Event, Technique, "Technique ID", Status | sort -count | table Event, Technique, "Technique ID", Status, count | rename count as "Occurrences"</query>
+          <earliest>0</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rowNumbers">false</option>
+      </table>
+    </panel>
+  </row>
+
+  <row>
+    <panel>
+      <title>AI Summary</title>
+      <single>
+        <search>
+          <query>index=main sourcetype=save | stats count as total, count(eval(match(_raw,"Failed password"))) as failed, count(eval(match(_raw,"COMMAND="))) as sudo | eval summary=case(total==0,"No security events detected in the monitored period.",failed>0,"Detected " . failed . " failed SSH login attempt(s). This activity maps to MITRE ATT&amp;CK T1110 (Brute Force).",sudo>0,"Sudo privilege escalation observed. This activity maps to MITRE ATT&amp;CK T1548 (Abuse Elevation Control Mechanism).",1=1,"Monitoring active. No suspicious activity detected.") | table summary</query>
+          <earliest>0</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorMode">none</option>
+        <option name="useColors">false</option>
+      </single>
+    </panel>
+  </row>
+
+</dashboard>

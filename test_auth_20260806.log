@@ -1,0 +1,17 @@
+Aug 06 02:07:01 kali sshd[2210]: Failed password for invalid user oracle from 103.45.67.90 port 44212 ssh2
+Aug 06 03:14:01 kali sshd[2210]: Failed password for invalid user admin from 103.45.67.91 port 44212 ssh2
+Aug 06 04:21:01 kali sshd[2210]: Failed password for invalid user oracle from 103.45.67.92 port 44212 ssh2
+Aug 06 05:28:01 kali sshd[2210]: Failed password for invalid user admin from 103.45.67.93 port 44212 ssh2
+Aug 06 06:35:01 kali sshd[2210]: Failed password for invalid user oracle from 103.45.67.94 port 44212 ssh2
+Aug 06 07:42:01 kali sshd[2210]: Failed password for invalid user admin from 103.45.67.95 port 44212 ssh2
+Aug 06 09:15:30 kali sshd[2250]: Accepted password for jane from 192.168.1.50 port 54000 ssh2
+Aug 06 09:16:31 kali sshd[2250]: session opened for user jane by (uid=1000)
+Aug 06 09:30:00 kali sudo:     jane : TTY=pts/0 ; PWD=/home/jane ; USER=root ; COMMAND=/usr/bin/apt update
+Aug 06 09:35:05 kali sudo:     jane : TTY=pts/0 ; PWD=/home/jane ; USER=root ; COMMAND=/usr/bin/apt upgrade -y
+Aug 06 09:40:00 kali sudo: pam_unix(sudo:session): session opened for user root
+Aug 06 10:05:30 kali sshd[2250]: Accepted password for kali from 192.168.1.60 port 49872 ssh2
+Aug 06 10:05:31 kali sshd[2250]: session opened for user kali(uid=1000) by (uid=0)
+Aug 06 13:15:30 kali sshd[2250]: Accepted password for kali from 192.168.1.61 port 49872 ssh2
+Aug 06 13:15:31 kali sshd[2250]: session opened for user kali(uid=1000) by (uid=0)
+Aug 06 16:25:30 kali sshd[2250]: Accepted password for kali from 192.168.1.62 port 49872 ssh2
+Aug 06 16:25:31 kali sshd[2250]: session opened for user kali(uid=1000) by (uid=0)
