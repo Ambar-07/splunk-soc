@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/abhinav4961/splunk-soc">
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=32&pause=1000&color=25C2A0&center=true&vCenter=true&width=800&lines=AI-Assisted+SIEM+Dashboard;Threat+Detection+Platform;Powered+by+Splunk+Enterprise" alt="Typing SVG" />
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=32&pause=1000&color=25C2A0&center=true&vCenter=true&width=800&lines=SIEM+Dashboard;Threat+Detection+Platform;Powered+by+Splunk+Enterprise" alt="Typing SVG" />
   </a>
 </p>
 
