@@ -39,7 +39,7 @@
 * **Event Timeline** — Visual representation of when security events occurred.
 * **Recent Events Table** — Live parsed Linux authentication, `sudo`, and SSH logs.
 * **MITRE ATT&CK Mapping** — Automatically classifies real events into established attack techniques.
-* **AI Summary** — Dynamic, human-readable text generated from actual indexed log counts.
+* **Summary** — Dynamic, human-readable text generated from actual indexed log counts.
 * **Fully Data-Driven** — Zero hardcoded metrics; every panel queries live Splunk data dynamically.
 
 <br>
